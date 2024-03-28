@@ -485,7 +485,7 @@ print(entry)
 для создания псевдонимов для полей или связей в запросе, чтобы использовать их в других частях запроса.
 ```python
 from django.db.models import Count
-blogs = Blog.objects.alias(entries=Count('entry')).filter(entries__gt=4)
+blogs = Blog.objects.alias(entries_new=Count('entry')).filter(entries_new__gt=4)
 print(blogs)
 """
 <QuerySet [
@@ -498,7 +498,7 @@ print(blogs)
 """
 
 ## Выведет ошибку, так как поле entries не существует, виду различий между alias и annotate
-# blogs = Blog.objects.alias(entries=Count('entry')).filter(entries__gt=4).values('blog', 'entries')
+# blogs = Blog.objects.alias(entries_new=Count('entry')).filter(entries_new__gt=4).values('blog', 'entries_new')
 ```
 
 ### aggregate()
@@ -678,8 +678,6 @@ print(filtered_data.reverse())
 Возвращает новый QuerySet, который использует SELECT DISTINCT в своем SQL-запросе. 
 Это исключает повторяющиеся строки из результатов запроса. 
 
-Если вы используете серверную часть базы данных, отличную от PostgreSQL, например MySQL или SQLite, вы столкнетесь 
-ошибкой, поскольку эти системы баз данных не поддерживают предложение DISTINCT ON.
 ```python
 print(Entry.objects.order_by('author', 'pub_date').distinct('author', 'pub_date'))  # Не работает в SQLite
 # distinct('author', 'pub_date') - оставляет уникальные строки по колонкам author, pub_date
